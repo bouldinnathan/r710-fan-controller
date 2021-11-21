@@ -152,20 +152,6 @@ def on_message(client, userdata, msg):
     global gpu_temp
     global gpu_history
     output=None
-    #<<<<<<<<<<<<<<<clock handler>>>>>>>>>>>>>>>>>>>>
-    #if msg.topic == 'clock': #handles all clock
-        #if len(msg.payload.decode('UTF-8')) <=27:
-        #    output=os.system('sudo date -s '+"'"+msg.payload.decode('UTF-8')+"'")
-        #    if output==0:
-        #        #print('success/'+uid+'/clock/set'+' '+msg.payload.decode('UTF-8'))
-        #        client.publish('success/'+uid+'/clock/set',msg.payload.decode('UTF-8'))
-        #    else:
-        #        #print('error/'+uid+'/clock/set'+' '+str(output))
-        #        client.publish('error/'+uid+'/clock/set',str(output))
-        #else:
-        #    output='To Long'
-        #    #print('error/'+uid+'/clock/set'+' '+output)
-        #    client.publish('error/'+uid+'/clock/set',str(output))
 
     if msg.topic=='rollcall':#returns the uid used to see if till active
         if msg.payload.decode('UTF-8')=='1':
@@ -180,7 +166,7 @@ def on_message(client, userdata, msg):
                 client.publish('success/start/'+uid+'/placeholder',str(output))
             else:
                 client.publish('error/start/'+uid+'/placeholder',str(output))
-            
+
     if msg.topic=='command/stop':
         if msg.payload.decode('UTF-8')=='1':
             set_fan_control("automatic", host)
@@ -198,11 +184,11 @@ def on_message(client, userdata, msg):
                 p_stderr = p.stderr.read().decode("utf-8")
                 #print (p_stdout)
                 #print (p_stderr)
-            
+
                 output=int(round(float(p_stdout.split("|")[1].replace(" ",""))))
 
 
-            #output=os.system('MP4Box -add /home/pi/Desktop/'+uid+'.h264 /home/pi/Desktop/'+uid+'.mp4')
+
             except:
                 output=-100
 
@@ -210,17 +196,7 @@ def on_message(client, userdata, msg):
                 client.publish('data/inlettemp/'+uid,str(output)+" °C")
             else:
                 client.publish('error/inlettemp/'+uid,str(output)+" °C")
-    #if msg.topic=='command/upload':
-    #    if msg.payload.decode('UTF-8')=='1':
-    #        temp=" -e 'ssh -i /home/pi/.ssh/id_rsa -o StrictHostKeyChecking=no'"
-    #        #output=os.system('rsync -avip'+temp+' /home/pi/Desktop/'+uid+'.mp4'+' '+ftpserver+':/home/pi/stuff/'+' >/home/pi/Desktop/fil$
-    #        if output==0:
-    #            client.publish('success/upload/'+uid,str(output))
-    #        else:
-    #            client.publish('error/upload/'+uid,str(output))
-
-
-    #log all data on mqtt
+    #
     print(msg.topic+" "+msg.payload.decode('UTF-8'))
 
 
@@ -230,9 +206,6 @@ def on_message(client, userdata, msg):
     if msg.topic=='query/temp':
         if msg.payload.decode('UTF-8')=='1' or True:
 
-
-           
-            #output=os.system('MP4Box -add /home/pi/Desktop/'+uid+'.h264 /home/pi/Desktop/'+uid+'.mp4')
             try:
                 output=int(round(float(msg.payload.decode('UTF-8'))))
                 gpu_temp=output
@@ -244,19 +217,9 @@ def on_message(client, userdata, msg):
                 client.publish('success/temp/'+uid,str(output)+" °C")
             else:
                 client.publish('error/temp/'+uid,str(output)+" °C")
-    #if msg.topic=='command/upload':
-    #    if msg.payload.decode('UTF-8')=='1':
-    #        temp=" -e 'ssh -i /home/pi/.ssh/id_rsa -o StrictHostKeyChecking=no'"
-    #        #output=os.system('rsync -avip'+temp+' /home/pi/Desktop/'+uid+'.mp4'+' '+ftpserver+':/home/pi/stuff/'+' >/home/pi/Desktop/file.txt 2>&1')
-    #        if output==0:
-    #            client.publish('success/upload/'+uid,str(output))
-    #        else:
-    #            client.publish('error/upload/'+uid,str(output))
-        
 
-    #log all data on mqtt
     print(msg.topic+" "+msg.payload.decode('UTF-8'))
-    
+
 
 client = mqtt.Client() #client_id='mosquitto',password='raspberry'
 client.on_connect = on_connect
@@ -486,40 +449,8 @@ def compute_fan_speed(temp_average, host):
 
 
 
-#    # Tavg < Threshold0
-#    if (
-#        temp_average <= host['temperatures'][0] and
-#        checkHysteresis(temp_average, 0, host)
-#    ):
-#        set_fan_speed(0, host)
-#
-#    # Threshold0 < Tavg ≤ Threshold1
-#    elif (
-#        host['temperatures'][0] < temp_average <= host['temperatures'][1] and
-#        checkHysteresis(temp_average, 1, host)
-#    ):
-#        set_fan_speed(1, host)
-#
-#    # Threshold1 < Tavg ≤ Threshold2
-#    elif (
-#        host['temperatures'][1] < temp_average <= host['temperatures'][2] and
-#        checkHysteresis(temp_average, 2, host)
-#    ):
-#        set_fan_speed(2, host)
-#
-#   # Threshold2 < Tavg ≤ Threshold3
-#    elif (
-#        host['temperatures'][2] < temp_average <= host['temperatures'][3] and
-#        checkHysteresis(temp_average, 3, host)
-#    ):
-#        set_fan_speed(3, host)
-#
-#   # Threshold3 < Tavg ≤ Threshold4
-#    elif (
-#        host['temperatures'][3] < temp_average <= host['temperatures'][4] and
-#        checkHysteresis(temp_average, 2, host)
-#    ):
-#        set_fan_speed(2, host)
+
+
 
 
 
