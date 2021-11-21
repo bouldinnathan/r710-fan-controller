@@ -1,4 +1,4 @@
-# Dell R710 Fan Control Script
+# Dell R710/R720 Fan Control Script
 
 > A temperature-based fan speed controller for Dell servers (tested on an R710, should work with most PowerEdges). Supports both local and remote hosts.
 
